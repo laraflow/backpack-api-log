@@ -3,7 +3,8 @@
 namespace Laraflow\BackpackApiLog;
 
 
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Client\Events\ConnectionFailed;
 use Illuminate\Http\Client\Events\ResponseReceived;
 use Laraflow\BackpackApiLog\Listeners\BackpackApiLogListener;
@@ -24,6 +25,7 @@ class BackpackApiLogServiceProvider extends ServiceProvider
             BackpackApiLogListener::class,
         ],
     ];
+
     /**
      * Bootstrap any package services.
      *
@@ -33,21 +35,23 @@ class BackpackApiLogServiceProvider extends ServiceProvider
     {
         $this->publishes(
             [__DIR__ . '/../config/backpack/api-log.php' => config_path('backpack/api-log.php')],
-        'api-log-config'
+            'api-log-config'
         );
 
         $this->publishes(
             [__DIR__ . '/../database/migrations' => database_path('migrations')],
-        'api-log-migration'
+            'api-log-migration'
         );
 
-        $this->loadRoutesFrom(__DIR__.'/../routes/backpack/api-log.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/backpack/api-log.php');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
                 BackpackApiLogCommand::class
             ]);
         }
+
+        $this->registerListener();
     }
 
     /**
@@ -60,5 +64,19 @@ class BackpackApiLogServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . '/../config/backpack/api-log.php', 'backpack.api-log'
         );
+    }
+
+    /**
+     * The register any event listener mappings for the application.
+     *
+     * @return void
+     */
+    private function registerListener(): void
+    {
+        foreach ($this->listen as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                Event::listen($event, $listener);
+            }
+        }
     }
 }
