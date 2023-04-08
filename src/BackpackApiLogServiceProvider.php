@@ -41,7 +41,7 @@ class BackpackApiLogServiceProvider extends ServiceProvider
         'api-log-migration'
         );
 
-        $this->loadRoutesFrom(__DIR__.'/../routes/api-log.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/backpack/api-log.php');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
