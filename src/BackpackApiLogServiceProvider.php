@@ -6,7 +6,7 @@ namespace Laraflow\BackpackApiLog;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Http\Client\Events\ConnectionFailed;
 use Illuminate\Http\Client\Events\ResponseReceived;
-use Laraflow\BackpackApiLog\Listeners\ApiLogListener;
+use Laraflow\BackpackApiLog\Listeners\BackpackApiLogListener;
 use Laraflow\BackpackApiLog\Commands\BackpackApiLogCommand;
 
 class BackpackApiLogServiceProvider extends ServiceProvider
@@ -18,10 +18,10 @@ class BackpackApiLogServiceProvider extends ServiceProvider
      */
     protected $listen = [
         ResponseReceived::class => [
-            ApiLogListener::class,
+            BackpackApiLogListener::class,
         ],
         ConnectionFailed::class => [
-            ApiLogListener::class,
+            BackpackApiLogListener::class,
         ],
     ];
     /**
@@ -41,7 +41,7 @@ class BackpackApiLogServiceProvider extends ServiceProvider
         'api-log-migration'
         );
 
-//        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadRoutesFrom(__DIR__.'/../routes/api-log.php');
 
         if ($this->app->runningInConsole()) {
             $this->commands([

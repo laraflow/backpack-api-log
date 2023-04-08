@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property array $request_object
  * @property array $response_object
  */
-class ApiLog extends Model
+class BackpackApiLog extends Model
 {
     use CrudTrait;
     /*

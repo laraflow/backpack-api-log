@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflow\BackpackApiLog\Http\Admin;
+namespace Laraflow\BackpackApiLog\Http\Controllers;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  *
  * @property-read CrudPanel $crud
  */
-class ApiLogCrudController extends CrudController
+class BackpackApiLogCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -24,8 +24,8 @@ class ApiLogCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(config('backpack.api-log.model'));
-        CRUD::setRoute(config('backpack.base.route_prefix'). config('backpack.api-log'));
+        CRUD::setModel(config('backpack.api-log.model', \Laraflow\BackpackApiLog\Models\BackpackApiLog::class));
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/' . config('backpack.api-log'));
         CRUD::setEntityNameStrings('api log', 'api logs');
     }
 
@@ -119,10 +119,10 @@ class ApiLogCrudController extends CrudController
     protected function setupShowOperation()
     {
         CRUD::setShowContentClass('col-md-12');
-
         CRUD::removeButton('update');
 
-        CRUD::column('group');
+        CRUD::column('created_at');
+        CRUD::column('host');
         CRUD::column('method');
         CRUD::column('url')->type('url');
         CRUD::addColumn([
@@ -130,15 +130,15 @@ class ApiLogCrudController extends CrudController
             'label' => 'Status',
             'type' => 'closure',
             'function' => function ($apiLog) {
-                return $apiLog->status_code.' - '.$apiLog->status_text;
+                return $apiLog->status_code . ' - ' . $apiLog->status_text;
             }]);
         CRUD::column('type');
         CRUD::column('response_time')->suffix(' seconds')->label('Time');
         CRUD::column('request_header')->type('json');
         CRUD::column('request_body')->type('json');
+        CRUD::column('request_object')->type('json');
         CRUD::column('response_header')->type('json');
         CRUD::column('response_body')->type('json');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        CRUD::column('response_object')->type('json');
     }
 }

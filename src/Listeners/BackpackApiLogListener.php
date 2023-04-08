@@ -4,13 +4,13 @@ namespace Laraflow\BackpackApiLog\Listeners;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Response;
-use Laraflow\BackpackApiLog\Models\ApiLog;
+use Laraflow\BackpackApiLog\Models\BackpackApiLog;
 use Illuminate\Http\Client\Events\ConnectionFailed;
 use Illuminate\Http\Client\Events\ResponseReceived;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Schema;
 
-class ApiLogListener
+class BackpackApiLogListener
 {
     /**
      * Handle the event.

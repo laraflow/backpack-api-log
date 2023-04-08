@@ -3,8 +3,8 @@
 // config for Laraflow/BackpackApiLog
 return [
     'table' => 'api_logs',
-    'model' => \Laraflow\BackpackApiLog\Models\ApiLog::class,
-    'route' => '/api-log',
+    'model' => \Laraflow\BackpackApiLog\Models\BackpackApiLog::class,
+    'route' => 'api-log',
     'enabled' => env('BACKPACK_API_LOG', false),
     'logs' => [
         //which methods should be logged
