@@ -31,15 +31,17 @@ class BackpackApiLogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([__DIR__ . '/../config/backpack/api-log.php' => config_path('backpack/api-log.php'),]);
+        $this->publishes(
+            [__DIR__ . '/../config/backpack/api-log.php' => config_path('backpack/api-log.php')],
+        'api-log-config'
+        );
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'generator');
+        $this->publishes(
+            [__DIR__ . '/../database/migrations' => database_path('migrations')],
+        'api-log-migration'
+        );
 
-        $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/generator'),
-        ]);
-
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+//        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
