@@ -24,21 +24,13 @@ use Illuminate\Database\Eloquent\Model;
 class BackpackApiLog extends Model
 {
     use CrudTrait;
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'api_logs';
-
-    // protected $primaryKey = 'id';
-    // public $timestamps = false;
     protected $guarded = ['id'];
-
-    // protected $fillable = [];
-    // protected $hidden = [];
-    // protected $dates = [];
     protected $casts = [
         'request_header' => 'json',
         'request_body' => 'json',
@@ -54,6 +46,14 @@ class BackpackApiLog extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+    public function __construct(array $attributes = [])
+    {
+        $this->table = config('backpack.api-log.table', parent::getTable());
+
+        parent::__construct($attributes);
+
+    }
 
     /*
     |--------------------------------------------------------------------------

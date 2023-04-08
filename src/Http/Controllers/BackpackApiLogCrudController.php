@@ -25,7 +25,7 @@ class BackpackApiLogCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(config('backpack.api-log.model', \Laraflow\BackpackApiLog\Models\BackpackApiLog::class));
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/' . config('backpack.api-log'));
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/' . config('backpack.api-log.route'));
         CRUD::setEntityNameStrings('api log', 'api logs');
     }
 
