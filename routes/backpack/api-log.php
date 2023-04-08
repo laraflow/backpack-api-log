@@ -19,4 +19,3 @@ Route::group([
 ], function () {
     Route::crud(config('backpack.api-log.route'), BackpackApiLogCrudController::class);
 });
-

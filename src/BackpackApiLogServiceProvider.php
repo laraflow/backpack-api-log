@@ -2,13 +2,12 @@
 
 namespace Laraflow\BackpackApiLog;
 
-
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Client\Events\ConnectionFailed;
 use Illuminate\Http\Client\Events\ResponseReceived;
-use Laraflow\BackpackApiLog\Listeners\BackpackApiLogListener;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
 use Laraflow\BackpackApiLog\Commands\BackpackApiLogCommand;
+use Laraflow\BackpackApiLog\Listeners\BackpackApiLogListener;
 
 class BackpackApiLogServiceProvider extends ServiceProvider
 {
@@ -34,20 +33,20 @@ class BackpackApiLogServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes(
-            [__DIR__ . '/../config/backpack/api-log.php' => config_path('backpack/api-log.php')],
+            [__DIR__.'/../config/backpack/api-log.php' => config_path('backpack/api-log.php')],
             'api-log-config'
         );
 
         $this->publishes(
-            [__DIR__ . '/../database/migrations' => database_path('migrations')],
+            [__DIR__.'/../database/migrations' => database_path('migrations')],
             'api-log-migration'
         );
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes/backpack/api-log.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/backpack/api-log.php');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                BackpackApiLogCommand::class
+                BackpackApiLogCommand::class,
             ]);
         }
 
@@ -62,14 +61,12 @@ class BackpackApiLogServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/backpack/api-log.php', 'backpack.api-log'
+            __DIR__.'/../config/backpack/api-log.php', 'backpack.api-log'
         );
     }
 
     /**
      * The register any event listener mappings for the application.
-     *
-     * @return void
      */
     private function registerListener(): void
     {

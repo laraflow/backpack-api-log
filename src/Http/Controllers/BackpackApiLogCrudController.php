@@ -25,7 +25,7 @@ class BackpackApiLogCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(config('backpack.api-log.model', \Laraflow\BackpackApiLog\Models\BackpackApiLog::class));
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/' . config('backpack.api-log.route'));
+        CRUD::setRoute(config('backpack.base.route_prefix').'/'.config('backpack.api-log.route'));
         CRUD::setEntityNameStrings('api log', 'api logs');
     }
 
@@ -92,8 +92,8 @@ class BackpackApiLogCrudController extends CrudController
                 ],
                 false,
                 function ($value) {
-                    $this->crud->addClause('where', 'created_at', '>=', $value->from . ' 00.00.01');
-                    $this->crud->addClause('where', 'created_at', '<=', $value->to . ' 23:59:59');
+                    $this->crud->addClause('where', 'created_at', '>=', $value->from.' 00.00.01');
+                    $this->crud->addClause('where', 'created_at', '<=', $value->to.' 23:59:59');
                 }
             );
         }
@@ -130,7 +130,7 @@ class BackpackApiLogCrudController extends CrudController
             'label' => 'Status',
             'type' => 'closure',
             'function' => function ($apiLog) {
-                return $apiLog->status_code . ' - ' . $apiLog->status_text;
+                return $apiLog->status_code.' - '.$apiLog->status_text;
             }]);
         CRUD::column('type');
         CRUD::column('response_time')->suffix(' seconds')->label('Time');

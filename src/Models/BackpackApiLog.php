@@ -31,6 +31,7 @@ class BackpackApiLog extends Model
     |--------------------------------------------------------------------------
     */
     protected $guarded = ['id'];
+
     protected $casts = [
         'request_header' => 'json',
         'request_body' => 'json',

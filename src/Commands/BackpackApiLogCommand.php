@@ -29,7 +29,7 @@ class BackpackApiLogCommand extends Command
 
             if ($this->confirm('Add Link on Sidebar', true)) {
 
-                Artisan::call('backpack:add-sidebar-content', ['code' => "<li class='nav-item'><a class='nav-link' href='{{ backpack_url('" . config('backpack.api-log.route') . "') }}' ><i class='nav-icon la la-search'></i> API Logs</a></li>"]);
+                Artisan::call('backpack:add-sidebar-content', ['code' => "<li class='nav-item'><a class='nav-link' href='{{ backpack_url('".config('backpack.api-log.route')."') }}' ><i class='nav-icon la la-search'></i> API Logs</a></li>"]);
             }
 
             return self::SUCCESS;
