@@ -38,93 +38,75 @@ class ApiLogCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $options = [
-            'method' => [
-                'GET' => 'GET',
-                'POST' => 'POST',
-                'PUT' => 'PUT',
-                'PATCH' => 'PATCH',
-                'DELETE' => 'DELETE',
-                'OPTION' => 'OPTION',
-            ],
-            'host' => [
-                'mountainwest.prod.easyaskondemand.com' => 'mountainwest.prod.easyaskondemand.com',
-                'internal.mwd1.com' => 'internal.mwd1.com',
-                'www.cenpos.net' => 'www.cenpos.net',
-            ],
-            'code' => [
-                '200' => '200',
-                '400' => '400',
-                '500' => '500',
-                '404' => '404',
-                '422' => '422',
-                '419' => '419',
-            ],
-        ];
+        if (backpack_pro()) {
 
-        CRUD::addFilter(
-            [
-                'name' => 'group',
-                'type' => 'dropdown',
-                'label' => 'Group',
-            ],
-            function () use (&$options) {
-                return $options['group'];
-            },
-            function ($value) {
-                $this->crud->addClause('where', 'group', '=', $value);
-            }
-        );
+            $options = config('backpack.api-log.logs');
 
-        CRUD::addFilter(
-            [
-                'name' => 'method',
-                'type' => 'dropdown',
-                'label' => 'Method',
-            ],
-            function () use (&$options) {
-                return $options['method'];
-            },
-            function ($value) {
-                $this->crud->addClause('where', 'method', '=', $value);
-            }
-        );
+            CRUD::addFilter(
+                [
+                    'name' => 'host',
+                    'type' => 'select2_multiple',
+                    'label' => 'Group',
+                ],
+                function () use (&$options) {
+                    return $options['group'];
+                },
+                function ($value) {
+                    $this->crud->addClause('whereIn', 'host', json_decode($value));
+                }
+            );
 
-        CRUD::addFilter(
-            [
-                'name' => 'status_code',
-                'type' => 'dropdown',
-                'label' => 'Status Code',
-            ],
-            function () use (&$options) {
-                return $options['code'];
-            },
-            function ($value) {
-                $this->crud->addClause('where', 'status_code', '=', $value);
-            }
-        );
+            CRUD::addFilter(
+                [
+                    'name' => 'method',
+                    'type' => 'dropdown',
+                    'label' => 'Method',
+                ],
+                function () use (&$options) {
+                    return $options['method'];
+                },
+                function ($value) {
+                    $this->crud->addClause('where', 'method', '=', $value);
+                }
+            );
 
-        CRUD::addFilter(
-            [
-                'type' => 'date_range',
-                'name' => 'created_at',
-                'label' => 'Created Between',
-            ],
-            false,
-            function ($value) {
-                $this->crud->addClause('where', 'created_at', '>=', $value->from.' 00.00.01');
-                $this->crud->addClause('where', 'created_at', '<=', $value->to.' 23:59:59');
-            }
-        );
+            CRUD::addFilter(
+                [
+                    'name' => 'status_code',
+                    'type' => 'dropdown',
+                    'label' => 'Status Code',
+                ],
+                function () use (&$options) {
+                    return $options['code'];
+                },
+                function ($value) {
+                    $this->crud->addClause('where', 'status_code', '=', $value);
+                }
+            );
+
+            CRUD::addFilter(
+                [
+                    'type' => 'date_range',
+                    'name' => 'created_at',
+                    'label' => 'Created Between',
+                ],
+                false,
+                function ($value) {
+                    $this->crud->addClause('where', 'created_at', '>=', $value->from . ' 00.00.01');
+                    $this->crud->addClause('where', 'created_at', '<=', $value->to . ' 23:59:59');
+                }
+            );
+        }
+
+        CRUD::removeButton('update');
 
         CRUD::column('id');
-        CRUD::column('group');
+        CRUD::column('host');
         CRUD::column('method');
         CRUD::column('url')->type('url');
         CRUD::column('status_code')->type('number')->label('Code');
         CRUD::column('type');
         CRUD::column('created_at');
-        CRUD::removeButton('update');
     }
 
     /**
@@ -138,9 +120,11 @@ class ApiLogCrudController extends CrudController
     {
         CRUD::setShowContentClass('col-md-12');
 
+        CRUD::removeButton('update');
+
         CRUD::column('group');
         CRUD::column('method');
-        CRUD::column('url')->type('text');
+        CRUD::column('url')->type('url');
         CRUD::addColumn([
             'name' => 'status',
             'label' => 'Status',

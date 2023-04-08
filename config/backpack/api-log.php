@@ -18,7 +18,6 @@ return [
         ],
         //which api endpoints should be logged
         'host' => [
-            '*' //means all
             //
         ],
         //which api http status code should be logged
@@ -31,7 +30,4 @@ return [
             '419' => '419',
         ],
     ],
-    'exclude' => [
-        // host name only that need to be excluded
-    ]
 ];
