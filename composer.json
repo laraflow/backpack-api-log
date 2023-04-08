@@ -16,12 +16,12 @@
         }
     ],
     "require": {
-        "php": "^8.1",
-        "spatie/laravel-package-tools": "^1.14.0",
-        "illuminate/contracts": "^10.0"
+        "php": "^7.4|^8.1",
+        "backpack/crud": "^5.0.4",
+        "illuminate/contracts": "^8.0|^9.0|^10.0",
+        "spatie/laravel-package-tools": "^1.14.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.9",
         "orchestra/testbench": "^8.0",
         "pestphp/pest": "^2.0",
@@ -30,8 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Laraflow\\BackpackApiLog\\": "src/",
-            "Laraflow\\BackpackApiLog\\Database\\Factories\\": "database/factories/"
+            "Laraflow\\BackpackApiLog\\": "src/"
         }
     },
     "autoload-dev": {
@@ -43,8 +42,7 @@
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "test-coverage": "vendor/bin/pest --coverage"
     },
     "config": {
         "sort-packages": true,
@@ -64,5 +62,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "suggest": {
+        "backpack/pro": "backpack pro will add addentional filter options to list view "
+    }
 }
