@@ -7,14 +7,6 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/backpack-api-log.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/backpack-api-log)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
-
 ## Installation
 
 You can install the package via composer:
@@ -23,37 +15,53 @@ You can install the package via composer:
 composer require laraflow/backpack-api-log
 ```
 
-You can publish and run the migrations with:
+You can run complete installation with:
 
 ```bash
-php artisan vendor:publish --tag="backpack-api-log-migrations"
+php artisan backpack-api-log:install
 php artisan migrate
 ```
 
-You can publish the config file with:
+Optionally, Install command will publish config and migration. For others, you can publish the config & migration file with:
 
 ```bash
-php artisan vendor:publish --tag="backpack-api-log-config"
+php artisan vendor:publish --tag="api-log-config"
+php artisan vendor:publish --tag="api-log-migration"
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+    'table' => 'api_logs',
+    'model' => \Laraflow\BackpackApiLog\Models\BackpackApiLog::class,
+    'route' => 'api-log',
+    'enabled' => env('BACKPACK_API_LOG', false),
+    'logs' => [
+        //which methods should be logged
+        'method' => [
+            'GET' => 'GET',
+            'POST' => 'POST',
+            'PUT' => 'PUT',
+            'PATCH' => 'PATCH',
+            'DELETE' => 'DELETE',
+            'OPTION' => 'OPTION',
+        ],
+        //which api endpoints should be logged
+        'host' => [
+            //
+        ],
+        //which api http status code should be logged
+        'code' => [
+            '200' => '200',
+            '400' => '400',
+            '500' => '500',
+            '404' => '404',
+            '422' => '422',
+            '419' => '419',
+        ],
+    ],
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="backpack-api-log-views"
-```
-
-## Usage
-
-```php
-$backpackApiLog = new Laraflow\BackpackApiLog();
-echo $backpackApiLog->echoPhrase('Hello, Laraflow!');
 ```
 
 ## Testing
