@@ -29,7 +29,7 @@ class BackpackApiLogListener
 
         $apiLog = app()->make(config('backpack.api-log.model'));
 
-        if (Schema::hasTable(config('backpack.api-log'))) {
+        if (Schema::hasTable(config('backpack.api-log.table'))) {
             $apiLog->host = $request->toPsrRequest()->getUri()->getHost();
             $apiLog->method = $request->method();
             $apiLog->url = $request->url();
